@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
@@ -24,7 +25,6 @@ public class ClickerActivity extends ActionBarActivity {
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,8 +54,9 @@ public class ClickerActivity extends ActionBarActivity {
      */
     public static class PlaceholderFragment extends Fragment implements View.OnClickListener{
 
-        private TextView mRemoveTV, mAddTV, mCounterTV;
-        private ImageView mRefresh;
+        private TextView mCounterTV;
+        private RelativeLayout mClickCount;
+        private ImageView mRefresh, mRemove;
 
         public PlaceholderFragment() {
         }
@@ -63,10 +64,10 @@ public class ClickerActivity extends ActionBarActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.removeTV:
+                case R.id.dec_counter:
                     this.decCounter();
                     break;
-                case R.id.addTV:
+                case R.id.clickCount:
                     this.incCounter();
                     break;
                 case R.id.refreshCounter:
@@ -78,17 +79,18 @@ public class ClickerActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_clicker, container, false);
+            View rootView = inflater.inflate(R.layout.one_clicker, container, false);
 
-            this.mRemoveTV = (TextView) rootView.findViewById(R.id.removeTV);
-            this.mAddTV = (TextView) rootView.findViewById(R.id.addTV);
-            this.mCounterTV = (TextView) rootView.findViewById(R.id.clickCount);
+            this.mRemove = (ImageView) rootView.findViewById(R.id.dec_counter);
+            this.mRemove.setOnClickListener(this);
+
+            this.mClickCount = (RelativeLayout) rootView.findViewById(R.id.clickCount);
+            this.mClickCount.setOnClickListener(this);
 
             this.mRefresh = (ImageView) rootView.findViewById(R.id.refreshCounter);
-
-            this.mRemoveTV.setOnClickListener(this);
-            this.mAddTV.setOnClickListener(this);
             this.mRefresh.setOnClickListener(this);
+
+            this.mCounterTV = (TextView) rootView.findViewById(R.id.mCounterTV);
 
             return rootView;
         }
