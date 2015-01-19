@@ -5,8 +5,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.NoActionBar">
-
-    </style>
-
 </resources>
