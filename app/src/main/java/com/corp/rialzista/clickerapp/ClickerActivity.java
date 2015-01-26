@@ -1,8 +1,10 @@
 package com.corp.rialzista.clickerapp;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +17,17 @@ import android.widget.TextView;
 
 public class ClickerActivity extends ActionBarActivity {
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clicker);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -41,11 +50,17 @@ public class ClickerActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.set_counter_name) {
+            showSetCounterTitleDialog();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showSetCounterTitleDialog() {
+        DialogFragment dialog = new DialogFragment();
+        dialog.show(getSupportFragmentManager(), "My Dialog");
     }
 
 
