@@ -1,21 +1,16 @@
 package com.corp.rialzista.clickerapp;
 
-import android.support.v4.app.DialogFragment;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 
-public class ClickerActivity extends ActionBarActivity {
+public class ClickerActivity extends ActionBarActivity implements
+        ClickerFragment.OnFragmentInteractionListener,
+        NameDialogFragment.NameDialogInteractionListener {
 
     Toolbar toolbar;
 
@@ -30,7 +25,7 @@ public class ClickerActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, ClickerFragment.newInstance("0"))
                     .commit();
         }
     }
@@ -59,81 +54,18 @@ public class ClickerActivity extends ActionBarActivity {
     }
 
     public void showSetCounterTitleDialog() {
-        DialogFragment dialog = new DialogFragment();
+        NameDialogFragment dialog = new NameDialogFragment();
         dialog.show(getSupportFragmentManager(), "My Dialog");
     }
 
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment implements View.OnClickListener{
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
-        private TextView mCounterTV;
-        private RelativeLayout mClickCount;
-        private ImageView mRefresh, mRemove;
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.dec_counter:
-                    this.decCounter();
-                    break;
-                case R.id.clickCount:
-                    this.incCounter();
-                    break;
-                case R.id.refreshCounter:
-                    this.resetCounter();
-                    break;
-            }
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.one_clicker, container, false);
-
-            this.mRemove = (ImageView) rootView.findViewById(R.id.dec_counter);
-            this.mRemove.setOnClickListener(this);
-
-            this.mClickCount = (RelativeLayout) rootView.findViewById(R.id.clickCount);
-            this.mClickCount.setOnClickListener(this);
-
-            this.mRefresh = (ImageView) rootView.findViewById(R.id.refreshCounter);
-            this.mRefresh.setOnClickListener(this);
-
-            this.mCounterTV = (TextView) rootView.findViewById(R.id.mCounterTV);
-
-            return rootView;
-        }
-
-        private void incCounter() {
-            String sCounter = this.mCounterTV.getText().toString();
-            try {
-                int value = Integer.parseInt(sCounter);
-                this.mCounterTV.setText(++value + "");
-            } catch (Exception ex) {
-                System.out.println("Could not parse " + ex);
-            }
-        }
-
-        private void decCounter() {
-            String sCounter = this.mCounterTV.getText().toString();
-            try {
-                int value = Integer.parseInt(sCounter);
-                this.mCounterTV.setText(--value + "");
-            } catch (Exception ex) {
-                System.out.println("Could not parse " + ex);
-            }
-        }
-
-        private void resetCounter() {
-            this.mCounterTV.setText("0");
-        }
     }
 
-
+    @Override
+    public void onNameSet(String clickerTitle) {
+        getSupportActionBar().setTitle(clickerTitle);
+    }
 }

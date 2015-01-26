@@ -6,6 +6,7 @@
     <string name="clicker_count_example">0</string>
     <string name="clicker_name">Clicker name</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="set_counter_name">Set Counter Name</string>
+    <string name="dialiog_clicker_title">Please add title</string>
+    <string name="set_clicker_name">Set clicker name</string>
 
 </resources>
