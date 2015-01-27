@@ -12,22 +12,31 @@ public class ClickerActivity extends ActionBarActivity implements
         ClickerFragment.OnFragmentInteractionListener,
         NameDialogFragment.NameDialogInteractionListener {
 
+    public static final String CLICKER_TITLE = "clicker_titile";
+
     Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String toolbarTitle = "";
+
         setContentView(R.layout.activity_clicker);
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, ClickerFragment.newInstance("0"))
                     .commit();
+        } else {
+            toolbarTitle = savedInstanceState.getString(CLICKER_TITLE, "");
         }
+
+        toolbar.setTitle(toolbarTitle);
+        setSupportActionBar(toolbar);
+
     }
 
     @Override
@@ -35,6 +44,13 @@ public class ClickerActivity extends ActionBarActivity implements
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_clicker, menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(CLICKER_TITLE, getSupportActionBar().getTitle().toString());
     }
 
     @Override

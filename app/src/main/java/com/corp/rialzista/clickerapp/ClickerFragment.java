@@ -57,9 +57,12 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        if (getArguments() != null)
             this.mBeginCounterValue = getArguments().getString(SAVED_VALUE);
-        }
+
+        if (savedInstanceState != null)
+            this.mBeginCounterValue = savedInstanceState.getString(SAVED_VALUE);
     }
 
     @Override
@@ -95,6 +98,15 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
                 this.resetCounter();
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save UI state changes ti the savedInstanceState
+        // This bundle will be passed to OnCreate if this process is
+        // killed and restarted.
+        outState.putString(SAVED_VALUE, this.mCounterTV.getText().toString());
     }
 
     @Override
