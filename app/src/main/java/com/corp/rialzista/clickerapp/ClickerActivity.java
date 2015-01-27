@@ -6,13 +6,15 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 public class ClickerActivity extends ActionBarActivity implements
         ClickerFragment.OnFragmentInteractionListener,
         NameDialogFragment.NameDialogInteractionListener {
 
-    public static final String CLICKER_TITLE = "clicker_title";
+    public static final String CLICKER_TITLE = "CLICKER_TITLE";
+    public static final String SET_CLICKER_NAME_DIALOG_TAG = "SET_CLICKER_NAME_DIALOG_TAG";
 
     Toolbar toolbar;
 
@@ -41,7 +43,6 @@ public class ClickerActivity extends ActionBarActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_clicker, menu);
         return true;
     }
@@ -55,23 +56,34 @@ public class ClickerActivity extends ActionBarActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.set_counter_name) {
-            showSetCounterTitleDialog();
-            return true;
+        switch (id) {
+            case R.id.set_counter_name:
+                this.showSetCounterTitleDialog();
+                return true;
+            case R.id.change_ui_mode:
+                this.showAnotherFragment();
+                return true;
+            case R.id.show_history:
+                this.showHistoryFragment();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void showHistoryFragment() {
+        Toast.makeText(this, "Handle showHistoryFragment", Toast.LENGTH_SHORT).show();
+    }
+
+    public void showAnotherFragment() {
+        Toast.makeText(this, "Handle showAnotherFragment", Toast.LENGTH_SHORT).show();
+    }
+
     public void showSetCounterTitleDialog() {
         NameDialogFragment dialog = new NameDialogFragment();
-        dialog.show(getSupportFragmentManager(), "My Dialog");
+        dialog.show(getSupportFragmentManager(), SET_CLICKER_NAME_DIALOG_TAG);
     }
 
 
