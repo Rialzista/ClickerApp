@@ -12,7 +12,7 @@ public class ClickerActivity extends ActionBarActivity implements
         ClickerFragment.OnFragmentInteractionListener,
         NameDialogFragment.NameDialogInteractionListener {
 
-    public static final String CLICKER_TITLE = "clicker_titile";
+    public static final String CLICKER_TITLE = "clicker_title";
 
     Toolbar toolbar;
 
