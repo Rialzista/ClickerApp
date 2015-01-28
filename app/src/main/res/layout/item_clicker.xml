@@ -43,9 +43,9 @@
             android:background="?android:selectableItemBackground"/>
 
         <TextView
+            android:id="@+id/counter_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/counter_count"
             android:text="@string/clicker_count_example"
             android:layout_centerInParent="true"
             android:textSize="100sp"

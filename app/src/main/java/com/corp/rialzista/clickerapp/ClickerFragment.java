@@ -23,6 +23,7 @@ import android.widget.TextView;
 public class ClickerFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public static final String CLICKER_FRAGMENT_TAG = "CLICKER_FRAGMENT_TAG";
     private static final String SAVED_VALUE = "counter_value";
 
     // TODO: Rename and change types of parameters

@@ -3,7 +3,9 @@ package com.corp.rialzista.clickerapp;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +22,10 @@ import android.view.ViewGroup;
  */
 public class ListCounterFragment extends Fragment {
 
+    public static final String LIST_COUNTER_FRAGMENT_TAG = "LIST_COUNTER_FRAGMENT_TAG";
+
     private OnFragmentInteractionListener mListener;
+    private ClickerViewAdapter mAdapter;
     private RecyclerView mRecycler;
 
     /**
@@ -55,6 +60,20 @@ public class ListCounterFragment extends Fragment {
         this.mRecycler = (RecyclerView) v.findViewById(R.id.recycler_view);
 
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        this.mAdapter = new ClickerViewAdapter(getActivity());
+
+        this.mAdapter.add(new Counter("First counter", 0));
+        this.mAdapter.add(new Counter("Second counter", 10));
+
+        this.mRecycler.setAdapter(this.mAdapter);
+        this.mRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecycler.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override

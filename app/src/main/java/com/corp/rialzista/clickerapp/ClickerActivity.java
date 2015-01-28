@@ -1,6 +1,8 @@
 package com.corp.rialzista.clickerapp;
 
 import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -11,10 +13,13 @@ import android.widget.Toast;
 
 public class ClickerActivity extends ActionBarActivity implements
         ClickerFragment.OnFragmentInteractionListener,
+        ListCounterFragment.OnFragmentInteractionListener,
         NameDialogFragment.NameDialogInteractionListener {
 
     public static final String CLICKER_TITLE = "CLICKER_TITLE";
     public static final String SET_CLICKER_NAME_DIALOG_TAG = "SET_CLICKER_NAME_DIALOG_TAG";
+
+    private FragmentManager mFM;
 
     Toolbar toolbar;
 
@@ -28,9 +33,11 @@ public class ClickerActivity extends ActionBarActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
 
+        this.mFM = getSupportFragmentManager();
+
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, ClickerFragment.newInstance("0"))
+            this.mFM.beginTransaction()
+                    .add(R.id.container, ClickerFragment.newInstance("0"), ClickerFragment.CLICKER_FRAGMENT_TAG)
                     .commit();
         } else {
             toolbarTitle = savedInstanceState.getString(CLICKER_TITLE, "");
@@ -78,7 +85,24 @@ public class ClickerActivity extends ActionBarActivity implements
     }
 
     public void showAnotherFragment() {
-        Toast.makeText(this, "Handle showAnotherFragment", Toast.LENGTH_SHORT).show();
+        Fragment clickerFragment = this.mFM.findFragmentByTag(ClickerFragment.CLICKER_FRAGMENT_TAG);
+        Fragment listClickerFragment = this.mFM.findFragmentByTag(ListCounterFragment.LIST_COUNTER_FRAGMENT_TAG);
+
+        if (clickerFragment != null && clickerFragment.isVisible()) {
+            this.mFM.beginTransaction().hide(clickerFragment).commit();
+            if (listClickerFragment != null)
+                this.mFM.beginTransaction().show(listClickerFragment).commit();
+            else
+                this.mFM.beginTransaction()
+                        .add(R.id.container, ListCounterFragment.newInstance()).commit();
+        } else {
+            if (listClickerFragment != null && listClickerFragment.isVisible())
+                this.mFM.beginTransaction().hide(listClickerFragment).commit();
+            else
+                this.mFM.beginTransaction().show(clickerFragment).commit();
+        }
+
+        this.mFM.executePendingTransactions();
     }
 
     public void showSetCounterTitleDialog() {
