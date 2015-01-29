@@ -42,15 +42,12 @@ public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.O
         switch (id) {
             case R.id.inc_counter:
                 this.mListener.incButtonClick(getPosition());
-                Log.d("MY_LOG" , "inc_counter click");
                 break;
             case R.id.dec_counter:
                 this.mListener.decButtonClick(getPosition());
-                Log.d("MY_LOG" , "dec_counter click");
                 break;
             case R.id.menu_item:
-                this.mListener.menuButtonClick(getPosition());
-                Log.d("MY_LOG" , "menu_item click");
+                this.mListener.menuButtonClick(getPosition(), v);
                 break;
         }
     }
@@ -58,6 +55,6 @@ public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.O
     public interface ClickerAction {
         public void incButtonClick(int position);
         public void decButtonClick(int position);
-        public void menuButtonClick(int position);
+        public void menuButtonClick(int position, View view);
     }
 }

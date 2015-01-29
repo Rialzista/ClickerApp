@@ -1,8 +1,10 @@
 package com.corp.rialzista.clickerapp;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -61,16 +63,38 @@ public class ClickerViewAdapter extends RecyclerView.Adapter<ClickerViewHolder> 
      */
     @Override
     public void incButtonClick(int position) {
-        Toast.makeText(this.mCtx, "Inc button click", Toast.LENGTH_SHORT).show();
+        Counter item = this.mItems.get(position);
+
+        item.setCounterValue(item.getCounterValue() + 1);
+
+        synchronized (this) {
+            notifyDataSetChanged();
+        }
+
     }
 
     @Override
     public void decButtonClick(int position) {
-        Toast.makeText(this.mCtx, "Dec button click", Toast.LENGTH_SHORT).show();
+        Counter item = this.mItems.get(position);
+
+        item.setCounterValue(item.getCounterValue() - 1);
+
+        synchronized (this) {
+            notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void menuButtonClick(int position) {
-        Toast.makeText(this.mCtx, "Menu button click", Toast.LENGTH_SHORT).show();
+    public void menuButtonClick(int position, View v) {
+        this.showPop(v);
     }
+
+    private void showPop(View v) {
+        PopupMenu popupMenu = new PopupMenu(this.mCtx, v);
+        MenuInflater inflater = popupMenu.getMenuInflater();
+        inflater.inflate(R.menu.popup_menu, popupMenu.getMenu());
+        popupMenu.show();
+    }
+
+
 }

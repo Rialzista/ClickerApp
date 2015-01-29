@@ -10,5 +10,6 @@
     <string name="set_clicker_name">Set clicker name</string>
     <string name="switch_to_multiply_view">Switch to multiple clickers</string>
     <string name="show_history">How history</string>
+    <string name="remove_clicker">Remove clicker</string>
 
 </resources>
