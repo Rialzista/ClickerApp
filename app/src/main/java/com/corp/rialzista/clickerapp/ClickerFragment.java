@@ -58,12 +58,12 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);/*
         if (getArguments() != null)
             this.mBeginCounterValue = getArguments().getString(SAVED_VALUE);
 
         if (savedInstanceState != null)
-            this.mBeginCounterValue = savedInstanceState.getString(SAVED_VALUE);
+            this.mBeginCounterValue = savedInstanceState.getString(SAVED_VALUE);*/
     }
 
     @Override

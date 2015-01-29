@@ -6,9 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.Iterator;
+import java.util.List;
 
 
 public class ClickerActivity extends ActionBarActivity implements
@@ -17,7 +21,10 @@ public class ClickerActivity extends ActionBarActivity implements
         NameDialogFragment.NameDialogInteractionListener {
 
     public static final String CLICKER_TITLE = "CLICKER_TITLE";
+    public static final String FRAGMENT_TAG = "FRAGMENT_TAG";
     public static final String SET_CLICKER_NAME_DIALOG_TAG = "SET_CLICKER_NAME_DIALOG_TAG";
+
+    public String current_visible_fragment_tag;
 
     private FragmentManager mFM;
 
@@ -39,8 +46,12 @@ public class ClickerActivity extends ActionBarActivity implements
             this.mFM.beginTransaction()
                     .add(R.id.container, ClickerFragment.newInstance("0"), ClickerFragment.CLICKER_FRAGMENT_TAG)
                     .commit();
+            this.current_visible_fragment_tag = ClickerFragment.CLICKER_FRAGMENT_TAG;
         } else {
+            this.current_visible_fragment_tag = savedInstanceState.getString(FRAGMENT_TAG, "");
             toolbarTitle = savedInstanceState.getString(CLICKER_TITLE, "");
+
+            this.restoreState(this.current_visible_fragment_tag);
         }
 
         toolbar.setTitle(toolbarTitle);
@@ -59,6 +70,7 @@ public class ClickerActivity extends ActionBarActivity implements
         super.onSaveInstanceState(outState);
 
         outState.putString(CLICKER_TITLE, getSupportActionBar().getTitle().toString());
+        outState.putString(FRAGMENT_TAG, this.current_visible_fragment_tag);
     }
 
     @Override
@@ -94,20 +106,52 @@ public class ClickerActivity extends ActionBarActivity implements
                 this.mFM.beginTransaction().show(listClickerFragment).commit();
             else
                 this.mFM.beginTransaction()
-                        .add(R.id.container, ListCounterFragment.newInstance()).commit();
+                        .add(R.id.container, ListCounterFragment.newInstance(), ListCounterFragment.LIST_COUNTER_FRAGMENT_TAG).commit();
+
+            this.current_visible_fragment_tag = ListCounterFragment.LIST_COUNTER_FRAGMENT_TAG;
         } else {
-            if (listClickerFragment != null && listClickerFragment.isVisible())
+            if (listClickerFragment != null && listClickerFragment.isVisible()) {
                 this.mFM.beginTransaction().hide(listClickerFragment).commit();
-            else
                 this.mFM.beginTransaction().show(clickerFragment).commit();
+
+                this.current_visible_fragment_tag = ClickerFragment.CLICKER_FRAGMENT_TAG;
+            }
         }
 
         this.mFM.executePendingTransactions();
     }
 
+    public void restoreState(String what_fragment_shown) {
+        Fragment clickerFragment = this.mFM.findFragmentByTag(ClickerFragment.CLICKER_FRAGMENT_TAG);
+        Fragment listClickerFragment = this.mFM.findFragmentByTag(ListCounterFragment.LIST_COUNTER_FRAGMENT_TAG);
+
+        if (clickerFragment != null && what_fragment_shown.equals(ClickerFragment.CLICKER_FRAGMENT_TAG)) {
+            this.mFM.beginTransaction().show(clickerFragment);
+            if (listClickerFragment != null)
+                this.mFM.beginTransaction().hide(listClickerFragment);
+        } else if (listClickerFragment != null && what_fragment_shown.equals(ListCounterFragment.LIST_COUNTER_FRAGMENT_TAG)) {
+            this.mFM.beginTransaction().show(listClickerFragment);
+            if (clickerFragment != null)
+                this.mFM.beginTransaction().hide(clickerFragment);
+        }
+
+    }
+
     public void showSetCounterTitleDialog() {
         NameDialogFragment dialog = new NameDialogFragment();
         dialog.show(getSupportFragmentManager(), SET_CLICKER_NAME_DIALOG_TAG);
+    }
+
+    public void changeVisibleStateFragment(String fragment_Tag) {
+        Fragment fr = this.mFM.findFragmentByTag(fragment_Tag);
+
+        if (fr != null ) {
+            if (fr.isVisible())
+                this.mFM.beginTransaction().hide(fr).commit();
+            else
+                this.mFM.beginTransaction().show(fr).commit();
+            this.mFM.executePendingTransactions();
+        }
     }
 
 
