@@ -89,6 +89,17 @@ public class ClickerViewAdapter extends RecyclerView.Adapter<ClickerViewHolder> 
         this.showPop(v);
     }
 
+    @Override
+    public void refreshButtonClick(int position) {
+        Counter item = this.mItems.get(position);
+
+        item.setCounterValue(0);
+
+        synchronized (this) {
+            notifyDataSetChanged();
+        }
+    }
+
     private void showPop(View v) {
         PopupMenu popupMenu = new PopupMenu(this.mCtx, v);
         MenuInflater inflater = popupMenu.getMenuInflater();

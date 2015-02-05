@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -12,9 +13,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:clickable="true"
-        android:background="?android:selectableItemBackground">
+        android:layout_centerInParent="true">
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/inc_counter_btn"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:cb_color="#3f51b5"
+            app:cb_pressedRingWidth="8dip"
+            android:layout_gravity="center|left"/>
 
         <TextView
             android:id="@+id/mCounterTV"
@@ -22,29 +29,28 @@
             android:layout_height="300dp"
             android:text="@string/clicker_count_example"
             android:gravity="center"
-            android:background="@drawable/circle_textview"
-            android:textSize="100dp"
+            android:textSize="80sp"
             android:layout_gravity="center|left" />
 
         </RelativeLayout>
 
-    <ImageView
+    <at.markushi.ui.CircleButton
         android:id="@+id/dec_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        app:cb_color="@color/bg_button_dec"
         android:src="@drawable/ic_remove_white_48dp"
-        android:clickable="true"
-        android:background="?android:selectableItemBackground"/>
+        android:padding="10dp"/>
 
-    <ImageView
+    <at.markushi.ui.CircleButton
         android:id="@+id/refreshCounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        app:cb_color="@color/bg_button_refresh"
         android:src="@drawable/ic_refresh_white_48dp"
-        android:clickable="true"
-        android:background="?android:selectableItemBackground"/>
+        android:padding="10dp"/>
 
 </RelativeLayout>

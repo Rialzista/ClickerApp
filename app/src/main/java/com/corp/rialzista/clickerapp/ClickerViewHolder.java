@@ -6,12 +6,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import at.markushi.ui.CircleButton;
+
 /**
  * Created by Rialzista on 28.01.2015.
  */
 public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    protected ImageView vDec, vInc, vMenu;
+    protected ImageView vMenu;
+    protected CircleButton  vDec, vInc, vRefr;
     protected ClickerAction mListener;
     protected TextView mTitle, mCounterValue;
 
@@ -23,15 +26,18 @@ public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.O
     }
 
     private void initializeVariables(View itemView) {
-        this.vDec = (ImageView) itemView.findViewById(R.id.dec_counter);
-        this.vInc = (ImageView) itemView.findViewById(R.id.inc_counter);
+        this.vDec = (CircleButton) itemView.findViewById(R.id.dec_counter_btn);
+        this.vInc = (CircleButton) itemView.findViewById(R.id.inc_counter_btn);
+        this.vRefr = (CircleButton) itemView.findViewById(R.id.refresh_counter_btn);
+
         this.vMenu = (ImageView) itemView.findViewById(R.id.menu_item);
 
         this.mTitle = (TextView) itemView.findViewById(R.id.clicker_name);
-        this.mCounterValue = (TextView) itemView.findViewById(R.id.counter_count);
+        this.mCounterValue = (TextView) itemView.findViewById(R.id.mCounterTV);
 
         this.vDec.setOnClickListener(this);
         this.vInc.setOnClickListener(this);
+        this.vRefr.setOnClickListener(this);
         this.vMenu.setOnClickListener(this);
     }
 
@@ -40,14 +46,16 @@ public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.O
         int id = v.getId();
 
         switch (id) {
-            case R.id.inc_counter:
+            case R.id.inc_counter_btn:
                 this.mListener.incButtonClick(getPosition());
                 break;
-            case R.id.dec_counter:
+            case R.id.dec_counter_btn:
                 this.mListener.decButtonClick(getPosition());
                 break;
             case R.id.menu_item:
                 this.mListener.menuButtonClick(getPosition(), v);
+            case R.id.refresh_counter_btn:
+                this.mListener.refreshButtonClick(getPosition());
                 break;
         }
     }
@@ -56,5 +64,6 @@ public class ClickerViewHolder extends RecyclerView.ViewHolder implements View.O
         public void incButtonClick(int position);
         public void decButtonClick(int position);
         public void menuButtonClick(int position, View view);
+        public void refreshButtonClick(int position);
     }
 }

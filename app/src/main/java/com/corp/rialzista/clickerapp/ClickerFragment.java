@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import at.markushi.ui.CircleButton;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +32,7 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
     private String mBeginCounterValue;
 
     private TextView mCounterTV;
-    private RelativeLayout mClickCount;
-    private ImageView mRefresh, mRemove;
+    private CircleButton mIncCounter, mRefresh, mRemove;
 
     private OnFragmentInteractionListener mListener;
 
@@ -58,12 +59,10 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);/*
+        setRetainInstance(true);
+
         if (getArguments() != null)
             this.mBeginCounterValue = getArguments().getString(SAVED_VALUE);
-
-        if (savedInstanceState != null)
-            this.mBeginCounterValue = savedInstanceState.getString(SAVED_VALUE);*/
     }
 
     @Override
@@ -71,18 +70,17 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.one_clicker, container, false);
 
-        this.mRemove = (ImageView) rootView.findViewById(R.id.dec_counter);
+        this.mRemove = (CircleButton) rootView.findViewById(R.id.dec_counter);
         this.mRemove.setOnClickListener(this);
 
-        this.mClickCount = (RelativeLayout) rootView.findViewById(R.id.clickCount);
-        this.mClickCount.setOnClickListener(this);
-
-        this.mRefresh = (ImageView) rootView.findViewById(R.id.refreshCounter);
+        this.mRefresh = (CircleButton) rootView.findViewById(R.id.refreshCounter);
         this.mRefresh.setOnClickListener(this);
 
         this.mCounterTV = (TextView) rootView.findViewById(R.id.mCounterTV);
         this.mCounterTV.setText(this.mBeginCounterValue);
 
+        this.mIncCounter = (CircleButton) rootView.findViewById(R.id.inc_counter_btn);
+        this.mIncCounter.setOnClickListener(this);
         return rootView;
     }
 
@@ -92,7 +90,7 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
             case R.id.dec_counter:
                 this.decCounter();
                 break;
-            case R.id.clickCount:
+            case R.id.inc_counter_btn:
                 this.incCounter();
                 break;
             case R.id.refreshCounter:
@@ -107,7 +105,7 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
         // Save UI state changes ti the savedInstanceState
         // This bundle will be passed to OnCreate if this process is
         // killed and restarted.
-        outState.putString(SAVED_VALUE, this.mCounterTV.getText().toString());
+        //outState.putString(SAVED_VALUE, this.mCounterTV.getText().toString());
     }
 
     @Override
@@ -147,6 +145,7 @@ public class ClickerFragment extends Fragment implements View.OnClickListener {
         try {
             int value = Integer.parseInt(sCounter);
             this.mCounterTV.setText(++value + "");
+            this.mBeginCounterValue = value + "";
         } catch (Exception ex) {
             System.out.println("Could not parse " + ex);
         }

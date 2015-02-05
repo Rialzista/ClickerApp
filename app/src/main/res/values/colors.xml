@@ -5,4 +5,7 @@
     <color name="ripple">#E0E0E0</color>
     <color name="accent">#ff4081</color>
     <color name="accent_pressed">#f50057</color>
+
+    <color name="bg_button_dec">#e91e63</color>
+    <color name="bg_button_refresh">#4caf50</color>
 </resources>
